@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
 /**
@@ -103,9 +109,9 @@ public class RegisterFragment extends Fragment {
         EditText emailEditText = getView().findViewById(R.id.edtUser);
         EditText passwordEditText = getView().findViewById(R.id.edtPassword);
 
-        String name = nameEditText.getText().toString().trim();
-        String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
+        final String name = nameEditText.getText().toString().trim();
+        final String email = emailEditText.getText().toString().trim();
+        final String password = passwordEditText.getText().toString().trim();
 
         if (aBoolean) {
             // non choose avatar
@@ -113,8 +119,26 @@ public class RegisterFragment extends Fragment {
         } else if (name.isEmpty()||email.isEmpty()||password.isEmpty()) {
             myAlert.normalDialog("Have Space","Please Fill All Blank");
         } else {
+//            upload avatar to firebase
+            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+            StorageReference storageReference = firebaseStorage.getReference();
+            storageReference.child("Avatar/" + name)
+                    .putFile(uri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Log.d("9MayV1", "Success Upload");
+                            registerFirebase(name, email, password);
+                        }
+                    });
 
         }
+    }
+
+    private void registerFirebase(String name, String email, String password) {
+
+
+
     }
 
     private void createToolbar() {
