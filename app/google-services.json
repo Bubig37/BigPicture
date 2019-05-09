@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "255720422440",
+    "firebase_url": "https://bigpicture-dd46e.firebaseio.com",
+    "project_id": "bigpicture-dd46e",
+    "storage_bucket": "bigpicture-dd46e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255720422440:android:886cc7f3957154ac",
+        "android_client_info": {
+          "package_name": "th.ac.rmutsv.bigpicture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255720422440-2i3vhqpjga69u3qq425o746i927n7gcl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "th.ac.rmutsv.bigpicture",
+            "certificate_hash": "5e67645b9b5f69fba38b934bfaa990534a1f32e5"
+          }
+        },
+        {
+          "client_id": "255720422440-5qnidm6afrr158qnlpf0nhga33bvs112.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm6BNqtwGRhiMMpNd7CuWxAGe-J9Nzvro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255720422440-5qnidm6afrr158qnlpf0nhga33bvs112.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
