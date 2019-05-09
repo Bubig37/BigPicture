@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +20,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -135,10 +142,54 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-    private void registerFirebase(String name, String email, String password) {
+    private void registerFirebase(final String name, final String email, String password) {
 
+        final MyAlert myAlert = new MyAlert(getActivity());
 
+        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // register success
+                            String uid =  firebaseAuth.getUid();
+                            updatedatabase(uid,name,email);
+                        } else {
+                            myAlert.normalDialog("Register False",task.getException().getMessage());
+                        }
+                    }
+                });
 
+    }
+
+    private void updatedatabase(final String uid, final String name, final String email) {
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference storageReference = firebaseStorage.getReference().child("Avatar").child(name);
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.d("9MayV1", "url image ==> " + uri.toString());
+                insertValueToFirebase(uid, name, email, uri.toString());
+            }
+        });
+    }
+
+    private void insertValueToFirebase(String uid, String name, String email, String image) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference()
+                .child("User")
+                .child(uid);
+
+        UserModel userModel = new UserModel(email, image, name);
+
+        databaseReference.setValue(userModel)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+                });
     }
 
     private void createToolbar() {
