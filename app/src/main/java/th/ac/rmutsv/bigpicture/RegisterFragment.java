@@ -1,6 +1,7 @@
 package th.ac.rmutsv.bigpicture;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,6 +41,7 @@ public class RegisterFragment extends Fragment {
     private ImageView imageView;
     private Uri uri;
     private boolean aBoolean = true;
+    private ProgressDialog progressDialog;
 
 
     public RegisterFragment() {
@@ -126,6 +128,10 @@ public class RegisterFragment extends Fragment {
         } else if (name.isEmpty()||email.isEmpty()||password.isEmpty()) {
             myAlert.normalDialog("Have Space","Please Fill All Blank");
         } else {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setTitle("Processing");
+            progressDialog.setMessage("...Now Loading...");
+            progressDialog.show();
 //            upload avatar to firebase
             FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
             StorageReference storageReference = firebaseStorage.getReference();
@@ -156,6 +162,7 @@ public class RegisterFragment extends Fragment {
                             String uid =  firebaseAuth.getUid();
                             updatedatabase(uid,name,email);
                         } else {
+                            progressDialog.dismiss();
                             myAlert.normalDialog("Register False",task.getException().getMessage());
                         }
                     }
@@ -187,7 +194,9 @@ public class RegisterFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        getActivity().getSupportFragmentManager().popBackStack();
+                        progressDialog.dismiss();
+                        startActivity(new Intent(getActivity(),ServiceActivity.class));
+                        getActivity().finish();
                     }
                 });
     }

@@ -6,4 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ServiceActivity">
 
+    <!--Content-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--toolbar-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarService"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+        <!--fragment-->
+
+
+    </LinearLayout>
+    <!--Drawer Menu-->
+
+
 </android.support.v4.widget.DrawerLayout>
