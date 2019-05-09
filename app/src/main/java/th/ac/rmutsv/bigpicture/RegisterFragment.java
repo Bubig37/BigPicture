@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 
@@ -25,6 +26,7 @@ public class RegisterFragment extends Fragment {
 
     private ImageView imageView;
     private Uri uri;
+    private boolean aBoolean = true;
 
 
     public RegisterFragment() {
@@ -56,6 +58,7 @@ public class RegisterFragment extends Fragment {
                 Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
                 Bitmap bitmap1 = Bitmap.createScaledBitmap(bitmap, 800, 600, false);
                 imageView.setImageBitmap(bitmap1);
+                aBoolean = false;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -95,6 +98,23 @@ public class RegisterFragment extends Fragment {
 
     private void CheckAndUpload() {
 
+        MyAlert myAlert = new MyAlert(getActivity());
+        EditText nameEditText = getView().findViewById(R.id.edtName);
+        EditText emailEditText = getView().findViewById(R.id.edtUser);
+        EditText passwordEditText = getView().findViewById(R.id.edtPassword);
+
+        String name = nameEditText.getText().toString().trim();
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+
+        if (aBoolean) {
+            // non choose avatar
+            myAlert.normalDialog("Non choose Avatar","Please choose Avartar");
+        } else if (name.isEmpty()||email.isEmpty()||password.isEmpty()) {
+            myAlert.normalDialog("Have Space","Please Fill All Blank");
+        } else {
+
+        }
     }
 
     private void createToolbar() {
