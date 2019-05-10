@@ -3,6 +3,7 @@ package th.ac.rmutsv.bigpicture;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -47,13 +51,27 @@ public class AuthenFragment extends Fragment {
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
-                MyAlert myAlert = new MyAlert(getActivity());
+                final MyAlert myAlert = new MyAlert(getActivity());
 
                 if (email.isEmpty()||password.isEmpty()) {
                     myAlert.normalDialog("Have Space","Please Fill every blank");
                 } else {
 
-                }
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    firebaseAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {   // authen true  ***iscomplete not check
+                                        //Authen true
+                                        startActivity(new Intent(getActivity(),ServiceActivity.class));
+                                    } else {
+                                        myAlert.normalDialog("Authen False",task.getException().getMessage());
+                                    }
+                                }
+                            });
+
+                }  //
             }
         });
     }
