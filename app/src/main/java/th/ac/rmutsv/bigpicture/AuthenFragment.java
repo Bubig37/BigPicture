@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,8 +31,32 @@ public class AuthenFragment extends Fragment {
 
 //        SignUp Controller
         signUpController();
+        //signIn controller
+        signInController();
 
     }   // main method
+
+    private void signInController() {
+        Button button = getView().findViewById(R.id.btnSignIn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText emailEditText = getView().findViewById(R.id.edtUser);
+                EditText passwordEditText = getView().findViewById(R.id.edtPassword);
+
+                String email = emailEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+
+                MyAlert myAlert = new MyAlert(getActivity());
+
+                if (email.isEmpty()||password.isEmpty()) {
+                    myAlert.normalDialog("Have Space","Please Fill every blank");
+                } else {
+
+                }
+            }
+        });
+    }
 
     @Override
     public void onResume() {
