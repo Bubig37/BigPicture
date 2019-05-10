@@ -17,17 +17,20 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
 
     private Context context;
     private ArrayList<String> iconStringArrayList, namStringArrayList, emailStringArrayList;
+    private OnClickItem onClickItem;
     private LayoutInflater layoutInflater;
 
     public FriendAdapter(Context context,
                          ArrayList<String> iconStringArrayList,
                          ArrayList<String> namStringArrayList,
-                         ArrayList<String> emailStringArrayList) {
-        this.layoutInflater = LayoutInflater.from(context);
+                         ArrayList<String> emailStringArrayList,
+                         OnClickItem onClickItem) {
+        this.context = context;
         this.iconStringArrayList = iconStringArrayList;
         this.namStringArrayList = namStringArrayList;
         this.emailStringArrayList = emailStringArrayList;
-    }  // constructor
+        this.onClickItem = onClickItem;
+    }
 
     @NonNull
     @Override
