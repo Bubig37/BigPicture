@@ -25,7 +25,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
                          ArrayList<String> namStringArrayList,
                          ArrayList<String> emailStringArrayList,
                          OnClickItem onClickItem) {
-        this.context = context;
+        this.layoutInflater = LayoutInflater.from(context);
         this.iconStringArrayList = iconStringArrayList;
         this.namStringArrayList = namStringArrayList;
         this.emailStringArrayList = emailStringArrayList;
@@ -43,7 +43,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FriendViewHolder friendViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final FriendViewHolder friendViewHolder, int i) {
         String name = namStringArrayList.get(i);
         String email = emailStringArrayList.get(i);
         String urlIcon = iconStringArrayList.get(i);
@@ -56,6 +56,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
                 .resize(800,600)
                 .into(friendViewHolder.imageView);
 
+        friendViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickItem.onClickItem(v,friendViewHolder.getAdapterPosition());
+            }
+        });
 
     }
 

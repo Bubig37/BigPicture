@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -78,8 +80,15 @@ public class FriendFragment extends Fragment {
                 }// for
 
                 FriendAdapter friendAdapter = new FriendAdapter(getActivity()
-                        ,iconStringsArrayList,nameStringsArrayList,emailStringsArrayList);
+                        , iconStringsArrayList, nameStringsArrayList, emailStringsArrayList, new OnClickItem() {
+                    @Override
+                    public void onClickItem(View view, int position) {
+                      //  Log.d("9MayV1", "You Click at position = " + position);
+                        Toast.makeText(getActivity(), "Position",Toast.LENGTH_SHORT).show();
+                    }
+                });
                 recyclerView.setAdapter(friendAdapter);
+
             }
 
             @Override
