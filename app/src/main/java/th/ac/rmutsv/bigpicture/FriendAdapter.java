@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendViewHolder>{
@@ -31,13 +33,26 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
     @Override
     public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
+        View view = layoutInflater.inflate(R.layout.layout_list_friend, viewGroup, false);
+        FriendViewHolder friendViewHolder = new FriendViewHolder(view);
 
-
-        return null;
+        return friendViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull FriendViewHolder friendViewHolder, int i) {
+        String name = namStringArrayList.get(i);
+        String email = emailStringArrayList.get(i);
+        String urlIcon = iconStringArrayList.get(i);
+
+        friendViewHolder.nameTextView.setText(name);
+        friendViewHolder.emailTextView.setText(email);
+        Picasso
+                .get()
+                .load(urlIcon)
+                .resize(800,600)
+                .into(friendViewHolder.imageView);
+
 
     }
 
