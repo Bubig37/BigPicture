@@ -23,6 +23,13 @@ public class ServiceActivity extends AppCompatActivity {
 
 //        Create Toolbar
         createToolbar();
+        //add fragment
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.contentServiceFragment, new FriendFragment())
+                    .commit();
+        }
     }   // main method
 
     @Override
